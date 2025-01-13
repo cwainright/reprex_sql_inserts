@@ -6,26 +6,17 @@ import pandas as pd
 
 def _db_connect(db:str) -> None:
 
-    if db.lower() == 'db_2023_py':
-        con_str = (
-        r'driver={SQL Server};'
-        r'server=(local);'
-        f'database={assets.DB_2023};'
-        r'trusted_connection=yes;'
-        )
-        try:
-            con = pyodbc.connect(con_str)
-            return con
-        except:
-            print('Connection to `{db}` failed.')
-    elif db.lower() == 'db_2023_sa':
+    if db.lower() == 'db_2023':
         try:
             con = sa.create_engine(assets.SACXN_STR)
             return con
         except:
             print('Connection to `{db}` failed.')
+    else:
+        print('The connection you requested is not in the assets file. Try another connection.')
+        return None
 
-def _exec_qry(con:pyodbc.connect, qry:str) -> pd.DataFrame:
+def _exec_qry(con:sa.Engine, qry:str) -> pd.DataFrame:
     with open(f'src/qry/{qry}.sql', 'r') as query:
         df = pd.read_sql_query(query.read(),con)
     return df
