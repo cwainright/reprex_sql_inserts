@@ -113,6 +113,10 @@ def create_species() -> pd.DataFrame:
             'blue frog'
             ,'green frog'
         ]
+        ,'n':[
+            1
+            ,3
+        ]
     })
 
     return species_lookup
