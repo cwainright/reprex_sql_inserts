@@ -1,1 +1,1 @@
-SELECT TOP 10 * FROM dbo.SurveyEvent;
+SELECT * FROM dbo.SurveyEvent;
