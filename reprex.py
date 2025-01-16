@@ -2,12 +2,12 @@
 A minimal reproducible example to demonstrate how to insert records into a local SQL Server db
 
 1. Restore db to local
-2. Test the connection between python and your local db
+2. SELECT the entire table from db into dataframe
 3. Create dataframes of dummy data
 4. Prep dummy dataframes to match db
-5. Load dataframes to local db
-    5.1 Alternative way to load db
-5. Validate load/referential integrity
+5. Make SQL
+6. Load dataframes to local db
+7. Validate load
 
 """
 import pandas as pd
@@ -175,7 +175,7 @@ for k,v in targets.items(): # loop over each dataframe we need to insert into db
 #     except:
 #         print(f'Failed to append rows to {k}.')
 ##############################################
-# 6. Validate load
+# 7. Validate load
 ##############################################
 
 test_surveys = pd.read_sql_table('SurveyEvent',con)
