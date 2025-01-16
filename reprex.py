@@ -14,8 +14,7 @@ import pandas as pd
 import numpy as np
 import sqlalchemy as sa
 import assets
-import src.create_dataframes as cd
-import src.target as t
+import datetime as dt
 
 ##############################################
 # 1. Restore a local SQL Server db
@@ -26,24 +25,88 @@ import src.target as t
 """
 
 ##############################################
-# 2. Test the connection between python and your local db
+# 2. SELECT the entire table from db into dataframe
 ##############################################
 """
-We'll focus on two tables for this reprex
-[dbo.SurveyEvent, dbo.SpeciesInfo]
+We'll focus on one table for this reprex
+[dbo].[SurveyEvent]
+
+We need the entire table so that we can validate column names and generate primary keys for the INSERTs
 """
 con = sa.create_engine(assets.SACXN_STR)
-with open(f'src/qry/select_SurveyEvent.sql', 'r') as query:
-        ref_surveys = pd.read_sql_query(query.read(),con)
+ref_surveys = pd.read_sql_table('SurveyEvent',con) # a shortcut for SELECT * FROM...
+# write and execute custom queries:
+# with open(f'src/qry/select_SurveyEvent.sql', 'r') as query:
+#     ref_surveys = pd.read_sql_query(query.read(),con)
 
 ##############################################
 # 3. Create dataframes of dummy data
 ##############################################
 """
-We'll focus on one table reprex
-[dbo].[SurveyEvent]
+We need to know exactly what SQL Server "expects" INSERTs to look like.
+Those "expectations" are coded into the table's CREATE TABLE query.
+Specifically, we care:
+    1. which columns are non-nullable
+    2. what the data type is for each column
+
+Generate a table's CREATE TABLE routine by right-clicking the table name in Data Studio
+and then clicking "Script as Create". SSMS will have a similar feature.
+
+CREATE TABLE [dbo].[SurveyEvent](
+	[SurveyRecID] [int] IDENTITY(1,1) NOT FOR REPLICATION NOT NULL,
+	[SiteRecID] [int] NOT NULL,
+	[PIID] [char](3) NOT NULL,
+	[EditDate] [datetime] NOT NULL,
+	[UnitID] [int] NULL,
+	[HabitatTypeID] [int] NULL,
+	[SurveyID] [int] NULL,
+	[ProjectCode] [varchar](10) NOT NULL,
+	[DetEstID] [char](2) NOT NULL,
+	[ObsDetTypeID] [char](1) NOT NULL,
+	[SMID] [char](2) NOT NULL,
+	[SDate] [datetime] NOT NULL,
+	[TBegin] [char](5) NOT NULL,
+	[TEnd] [char](5) NOT NULL,
+	[Noise] [char](1) NULL,
+	[Visit] [int] NULL,
+	[ObsName1] [varchar](30) NOT NULL,
+	[ObsName2] [varchar](30) NULL,
+	[ObsName3] [varchar](30) NULL,
+	[ObsName4] [varchar](30) NULL,
+	[ObsName5] [varchar](30) NULL,
+	[TransectDir] [varchar](1) NULL,
+	[UnitEffortID] [char](2) NULL,
+	[EffectValue1] [int] NULL,
+	[EffectValue2] [int] NULL,
+	[EffectValue3] [int] NULL,
+	[EffectValue4] [int] NULL,
+	[EffectValue5] [int] NULL,
+	[SurveyNotes] [varchar](2000) NULL,
+	[UserID] [char](5) NOT NULL,
+	[Checked] [char](1) NOT NULL,
+	[ExportDate] [datetime] NULL,
+	[PlotTransect] [varchar](50) NULL
+    )
 """
-survey_events = cd.create_survey_events() # we'll load this to dbo.SurveyEvent
+# Here, we're creating one survey
+# for our example, I'm only adding the NOT NULL fields
+# you'll need to adjust this to include whatever fields you're moving from csvs to SQL Server
+survey_inserts = pd.DataFrame({
+    'SurveyRecID':[np.nan] # we assign primary keys later
+    ,'SiteRecID':[46] # FK: SiteConstants.SiteRecID
+    ,'PIID':['NE1'] # DEFAULT ('NE1')
+    ,'EditDate':[str(dt.datetime.now())]
+    ,'ProjectCode':['Streams'] # FK: Project.ProjectCode
+    ,'DetEstID':['05']
+    ,'ObsDetTypeID':['2']
+    ,'SMID':['19']
+    ,'SDate':['2024-06-23 00:00:00.000']
+    ,'TBegin':['1801']
+    ,'TEnd':['1802']
+    ,'ObsName1':['Brander, Susanne'] # FK: LocalObserver.ObsName
+    ,'UserID':['testx']
+    ,'Checked':['2']
+})
 
 ##############################################
 # 4. Prep dummy dataframes to match db
@@ -67,58 +130,11 @@ Prep the dataframe of records to match the db schema
 targets = {
     'dbo.SurveyEvent':[ # the name of a table in the "target" db
         'insert_SurveyEvent' # the name of the INSERT query
-        ,survey_events # a dataframe of dummy surveys we want to add to the db
+        ,survey_inserts # a dataframe of dummy surveys we want to add to the db
         ,ref_surveys # a dataframe of real surveys present in the db
         ,'SurveyRecID' # the name of the primary key field from the db
-        ,{ # a lookup table of column names {<a column in `survey_events`>:<a column in `ref_surveys`>}
-            'visit_date':'SDate'
-            ,'location_id':'SiteRecID'
-        }
         ]
 }
-
-# crosswalk column names from the source dataframe to the reference dataframe
-for k,v in targets.items():
-    misnamed_cols = [x for x in v[1].columns if x not in v[2].columns and x!='id'] # 'id' is the primary key in each of the dummy dataframes
-    v[1].rename(
-        columns=v[4]
-        ,inplace=True
-    )
-    # confirm that the lookup for column-names is complete
-    misnamed_cols = [x for x in v[1].columns if x not in v[2].columns and x!='id']
-    if len(misnamed_cols) > 0:
-        print(f"The column-name lookup is incomplete for {k}; {len(misnamed_cols)} are missing!")
-        print(misnamed_cols)
-
-# add columns to the source df that are present in the reference but absent from the source
-# correct the column-order
-# for k,v in targets.items():
-#     # remove primary keys from source dataframes; SQL Server assigns these and you cannot keep your old primary keys
-#     try:
-#         del v[1]['id']
-#     except:
-#         pass
-#     # figure out which columns are present in the reference dataframe but absent from the source dataframe; and add all of the missing columns
-#     missingcols = [x for x in v[2].columns if x not in v[1].columns]
-#     for col in missingcols:
-#         v[1][col] = None
-#     # make the source dataframe's column-order match the reference dataframe's column order
-#     v[1] = v[1][v[2].columns]
-#     # try:
-#     #     del v[1][v[3]] # remove the primary key field
-#     # except:
-#     #     print('Warning, primary key {v[3]} still present in {k}')
-
-# update data types to match SQL Server
-for k,v in targets.items():
-    for col in v[1].columns:
-        # handle NAs (SQL Server requires NAs to be passed as 'NULL' strings)
-        mask = (v[1][col].isna())
-        v[1][col] = np.where(mask, 'NULL', v[1][col])
-        # handle dates (SQL Server requires 8-character strings, no separator)
-        if 'date' in col.lower():
-            mask = (v[1][col].isna()==False)
-            v[1][col] = np.where(mask, v[1][col].astype(str).str.replace('-',''), v[1][col])
 
 # ARMILocal requires that we provide each new records's primary key
 # this is odd, but ok
@@ -147,7 +163,7 @@ for k,v in targets.items(): # loop over each dataframe we need to insert into db
 
 ##############################################
 # 6. Load dataframes to local db
-# OPTION 6.1: open Data Studio or SSMS and run the queries
+# OPTION 6.1: open Data Studio or SSMS and run the queries from step 5
 # OPTION 6.2: use pd.to_sql() as commented-out below
 ##############################################
 # if con is None: # create a connection if you don't already have one
@@ -162,8 +178,5 @@ for k,v in targets.items(): # loop over each dataframe we need to insert into db
 # 6. Validate load
 ##############################################
 
-with open(f'src/qry/select_SurveyEvent.sql', 'r') as query:
-        test_surveys = pd.read_sql_query(query.read(),con)
+test_surveys = pd.read_sql_table('SurveyEvent',con)
 len(ref_surveys) == len(test_surveys)
-# Are the pk-fk relationships still valid?
-
