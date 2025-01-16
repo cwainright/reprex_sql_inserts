@@ -1,33 +1,71 @@
-brotlipy @ file:///D:/bld/brotlipy_1666764804378/work
-certifi==2022.12.7
-cffi @ file:///D:/bld/cffi_1671179506518/work
-charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1678108872112/work
-colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1666700638685/work
-conda-package-handling @ file:///home/conda/feedstock_root/build_artifacts/conda-package-handling_1669907009957/work
-conda_package_streaming @ file:///home/conda/feedstock_root/build_artifacts/conda-package-streaming_1669733752472/work
-cryptography @ file:///D:/bld/cryptography-split_1679811386218/work
-greenlet==3.1.1
-idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1663625384323/work
-menuinst @ file:///D:/bld/menuinst_1666839998718/work
-numpy==2.2.1
-pandas==2.2.3
-pluggy @ file:///home/conda/feedstock_root/build_artifacts/pluggy_1667232663820/work
-pycosat @ file:///D:/bld/pycosat_1666836675990/work
-pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1636257122734/work
-pyodbc==5.2.0
-pyOpenSSL @ file:///home/conda/feedstock_root/build_artifacts/pyopenssl_1680037383858/work
-PySocks @ file:///D:/bld/pysocks_1661604991356/work
-python-dateutil==2.9.0.post0
-pytz==2024.2
-requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1680286922386/work
-ruamel.yaml @ file:///D:/bld/ruamel.yaml_1678273308128/work
-ruamel.yaml.clib @ file:///D:/bld/ruamel.yaml.clib_1670412994006/work
-six==1.17.0
-SQLAlchemy==2.0.37
-toolz @ file:///home/conda/feedstock_root/build_artifacts/toolz_1657485559105/work
-tqdm @ file:///home/conda/feedstock_root/build_artifacts/tqdm_1677948868469/work
-typing_extensions==4.12.2
-tzdata==2024.2
-urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1678635778344/work
-win-inet-pton @ file:///D:/bld/win_inet_pton_1667051142467/work
+asttokens @ file:///opt/conda/conda-bld/asttokens_1646925590279/work
+backcall @ file:///home/ktietz/src/ci/backcall_1611930011877/work
+boltons @ file:///C:/b/abs_707eo7c09t/croot/boltons_1677628723117/work
+Bottleneck @ file:///C:/Windows/Temp/abs_3198ca53-903d-42fd-87b4-03e6d03a8381yfwsuve8/croots/recipe/bottleneck_1657175565403/work
+brotlipy==0.7.0
+certifi @ file:///C:/b/abs_85o_6fm0se/croot/certifi_1671487778835/work/certifi
+cffi @ file:///C:/b/abs_49n3v2hyhr/croot/cffi_1670423218144/work
+charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
+colorama @ file:///C:/b/abs_a9ozq0l032/croot/colorama_1672387194846/work
+comm @ file:///C:/b/abs_1419earm7u/croot/comm_1671231131638/work
+conda==23.3.1
+conda-package-handling @ file:///C:/b/abs_fcga8w0uem/croot/conda-package-handling_1672865024290/work
+conda_package_streaming @ file:///C:/b/abs_0e5n5hdal3/croot/conda-package-streaming_1670508162902/work
+cryptography @ file:///C:/b/abs_8ecplyc3n2/croot/cryptography_1677533105000/work
+debugpy @ file:///C:/ci/debugpy_1637091961445/work
+decorator @ file:///opt/conda/conda-bld/decorator_1643638310831/work
+executing @ file:///opt/conda/conda-bld/executing_1646925071911/work
+flit_core @ file:///C:/b/abs_eayrusf37u/croot/flit-core_1679397110577/work/source/flit_core
+idna @ file:///C:/b/abs_bdhbebrioa/croot/idna_1666125572046/work
+importlib-metadata @ file:///C:/b/abs_20ndzb2j6v/croot/importlib-metadata_1678997085534/work
+ipykernel @ file:///D:/bld/ipykernel_1670534150355/work
+ipython @ file:///C:/b/abs_d1yx5tjhli/croot/ipython_1680701887259/work
+iso639==0.1.4
+jedi @ file:///C:/ci/jedi_1644315428289/work
+jsonpatch @ file:///tmp/build/80754af9/jsonpatch_1615747632069/work
+jsonpointer==2.1
+jupyter_client @ file:///C:/b/abs_059idvdagk/croot/jupyter_client_1680171872444/work
+jupyter_core @ file:///C:/b/abs_9d0ttho3bs/croot/jupyter_core_1679906581955/work
+matplotlib-inline @ file:///C:/ci/matplotlib-inline_1661915841596/work
+menuinst @ file:///C:/ci/menuinst_1631733438520/work
+mkl-fft==1.3.1
+mkl-random @ file:///C:/ci/mkl_random_1626186184308/work
+mkl-service==2.4.0
+nest-asyncio @ file:///C:/b/abs_3a_4jsjlqu/croot/nest-asyncio_1672387322800/work
+numexpr @ file:///C:/b/abs_a7kbak88hk/croot/numexpr_1668713882979/work
+numpy @ file:///C:/b/abs_datssh7cer/croot/numpy_and_numpy_base_1672336199388/work
+packaging @ file:///C:/b/abs_ed_kb9w6g4/croot/packaging_1678965418855/work
+pandas @ file:///C:/b/abs_c6fuezktfm/croot/pandas_1670425103552/work
+parso @ file:///opt/conda/conda-bld/parso_1641458642106/work
+pickleshare @ file:///tmp/build/80754af9/pickleshare_1606932040724/work
+platformdirs @ file:///C:/b/abs_73cc5cz_1u/croots/recipe/platformdirs_1662711386458/work
+pluggy @ file:///C:/ci/pluggy_1648024580010/work
+prompt-toolkit @ file:///C:/b/abs_6coz5_9f2s/croot/prompt-toolkit_1672387908312/work
+psutil @ file:///C:/Windows/Temp/abs_b2c2fd7f-9fd5-4756-95ea-8aed74d0039flsd9qufz/croots/recipe/psutil_1656431277748/work
+pure-eval @ file:///opt/conda/conda-bld/pure_eval_1646925070566/work
+pycosat @ file:///C:/b/abs_4b1rrw8pn9/croot/pycosat_1666807711599/work
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+Pygments @ file:///opt/conda/conda-bld/pygments_1644249106324/work
+pyOpenSSL @ file:///C:/b/abs_552w85x1jz/croot/pyopenssl_1677607703691/work
+PySocks @ file:///C:/ci/pysocks_1605307512533/work
+python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
+pytz @ file:///C:/b/abs_22fofvpn1x/croot/pytz_1671698059864/work
+pywin32==305.1
+pyzmq @ file:///C:/ci/pyzmq_1657615952984/work
+requests @ file:///C:/b/abs_80_edxtvhu/croot/requests_1678709752318/work
+ruamel.yaml @ file:///C:/b/abs_30ee5qbthd/croot/ruamel.yaml_1666304562000/work
+ruamel.yaml.clib @ file:///C:/b/abs_aarblxbilo/croot/ruamel.yaml.clib_1666302270884/work
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+sqlalchemy-access==2.0.2
+stack-data @ file:///opt/conda/conda-bld/stack_data_1646927590127/work
+toolz @ file:///C:/b/abs_cfvk6rc40d/croot/toolz_1667464080130/work
+tornado @ file:///C:/ci/tornado_1662458743919/work
+tqdm @ file:///C:/b/abs_f76j9hg7pv/croot/tqdm_1679561871187/work
+traitlets @ file:///C:/b/abs_e5m_xjjl94/croot/traitlets_1671143896266/work
+typing_extensions @ file:///C:/b/abs_89eui86zuq/croot/typing_extensions_1669923792806/work
+urllib3 @ file:///C:/b/abs_3ce53vrdcr/croot/urllib3_1680254693505/work
+wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
+win-inet-pton @ file:///C:/ci/win_inet_pton_1605306162074/work
+wincertstore==0.2
+zipp @ file:///C:/b/abs_b9jfdr908q/croot/zipp_1672387552360/work
 zstandard==0.19.0
