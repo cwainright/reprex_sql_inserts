@@ -175,3 +175,4 @@ issues.txt
 assets.py
 src/qry/insert*
 src/qry/create*
+*.bak
